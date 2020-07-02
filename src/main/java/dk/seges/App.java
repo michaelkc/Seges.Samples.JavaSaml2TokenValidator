@@ -34,6 +34,7 @@ import java.util.List;
 public class App {
     public static void main(String[] args) {
         final String audience = "https://www.landmand.dk/";
+        final String issuer = "http://idp.dlbr.dk/adfs/services/trust";
         final String trustedSigningCertBase64File = ".\\data\\idp_dlbr_dk_signing_public.cer";
         final String saml2TokenFile = ".\\data\\token.xml";
 
@@ -47,9 +48,9 @@ public class App {
             X509Certificate tokenCert = LoadCertificateFromToken(wrapper);
             PublicKey tokenCertPublic = tokenCert.getPublicKey();
 
-            // Technically not necessary since we are verifying the signature with the trusted public key,
-            // not the one inside the SAML token
-            boolean tokenSignedWithTrustedSigningCert = tokenCertPublic == trustedSigningCertPublic;
+            // Technically not important since we are verifying the signature with the
+            // trusted public key, not the one inside the SAML token
+            boolean tokenSignedWithTrustedSigningCert = tokenCertPublic.equals(trustedSigningCertPublic);
             System.out.printf("Token is signed with trusted signing cert? %s%n", tokenSignedWithTrustedSigningCert);
 
             // Can be tested by changing SAML token contents
@@ -63,8 +64,14 @@ public class App {
             // Can be tested by waiting until the token expires (default: 1 hour)
             System.out.println("Verifying token not expired (will throw if invalid)");
             wrapper.checkConditions(0);
-            // Additional checks exists but are not essential
 
+            System.out.println("Verifying issuer");
+            String actualIssuer = wrapper.getIssuerString();
+            if (!actualIssuer.equals(issuer)) {
+                throw new Exception(String.format("Unexpected issuer: %s", actualIssuer));
+            }
+
+            // Additional checks exists but are not essential
             // Dump the data
             String subjectName = wrapper.getSubjectName();
             System.out.printf("Subject name: %s%n", subjectName);
