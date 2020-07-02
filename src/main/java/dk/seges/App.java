@@ -65,13 +65,14 @@ public class App {
             System.out.println("Verifying token not expired (will throw if invalid)");
             wrapper.checkConditions(0);
 
+            // Can be tested by changing accepted issuer (in issuer) above
             System.out.println("Verifying issuer");
             String actualIssuer = wrapper.getIssuerString();
             if (!actualIssuer.equals(issuer)) {
                 throw new Exception(String.format("Unexpected issuer: %s", actualIssuer));
             }
 
-            // Additional checks exists but are not essential
+            // Additional checks exist but are not essential
             // Dump the data
             String subjectName = wrapper.getSubjectName();
             System.out.printf("Subject name: %s%n", subjectName);
