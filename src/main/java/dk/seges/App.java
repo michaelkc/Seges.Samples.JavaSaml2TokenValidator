@@ -33,9 +33,9 @@ import java.util.List;
 
 public class App {
     public static void main(String[] args) {
-        final String audience = "https://www.landmand.dk/";
-        final String issuer = "http://idp.dlbr.dk/adfs/services/trust";
-        final String trustedSigningCertBase64File = ".\\data\\idp_dlbr_dk_signing_public.cer";
+        final String audience = "https://www.o90.dk/";
+        final String issuer = "http://si-idp.vfltest.dk/adfs/services/trust";
+        final String trustedSigningCertBase64File = ".\\data\\si_idp_vfltest_dk_signing_public.cer";
         final String saml2TokenFile = ".\\data\\token.xml";
 
         try {
