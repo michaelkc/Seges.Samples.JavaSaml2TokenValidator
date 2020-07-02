@@ -38,8 +38,6 @@ public class App {
         final String saml2TokenFile = ".\\data\\token.xml";
 
         try {
-            String current = new java.io.File( "." ).getCanonicalPath();
-            System.out.println("Current dir:"+current);
             List<String> audienceRestrictions = new ArrayList<String>();
             audienceRestrictions.add(audience);
             X509Certificate trustedSigningCert = loadCertificateFromBase64File(trustedSigningCertBase64File);
